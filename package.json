@@ -1,0 +1,32 @@
+{
+  "name": "corebay",
+  "version": "1.0.0",
+  "description": "Corebay API wrapper for Node.js",
+  "author": "Mehavoid",
+  "license": "MIT",
+  "main": "./lib/client.js",
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "engines": {
+    "node": ">=12.18.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mehavoid/corebay.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Mehavoid/corebay/issues"
+  },
+  "homepage": "https://github.com/Mehavoid/corebay",
+  "devDependencies": {
+    "@babel/core": "^7.11.1",
+    "@babel/eslint-parser": "^7.11.3",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/preset-env": "^7.11.0",
+    "eslint": "^7.7.0"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3"
+  }
+}
