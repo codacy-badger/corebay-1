@@ -1,1 +1,1 @@
-# Corebay API wrapper for Node.j
+# Corebay API wrapper for Node.js
