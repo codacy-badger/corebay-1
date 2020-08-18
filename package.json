@@ -6,7 +6,8 @@
   "license": "MIT",
   "main": "./lib/client.js",
   "scripts": {
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "npm run -s lint && node test/test.js"
   },
   "engines": {
     "node": ">=12.18.3"
