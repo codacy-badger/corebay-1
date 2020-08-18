@@ -46,15 +46,32 @@ assert(Client);
     }
   );
 
+  const incorrectPassword = new Client(config.username, '1234567');
+
+  const incorrectPasswordPromise = assert.rejects(
+    async () => (await incorrectPassword.auth()),
+    error => {
+      assert.strictEqual(error.name, 'AuthorizationError');
+      assert.strictEqual(error.message, 'Username or password incorrect');
+      return true;
+    }
+  );
+
+  const successfulAuthorization = new Client(config);
+
   const promises = [
     emptyUsernamePromise,
     emptyPasswordPromise,
-    notFoundUserPromise
+    notFoundUserPromise,
+    incorrectPasswordPromise,
   ];
 
   try {
 
     await Promise.all(promises);
+    const ok = await successfulAuthorization.auth();
+
+    assert.strictEqual(ok, undefined);
 
   } catch (e) {
 
