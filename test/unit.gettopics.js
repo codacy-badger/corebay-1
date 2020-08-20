@@ -6,13 +6,49 @@ const Client = require('../lib/client');
 assert(config);
 assert(Client);
 
+const TYPES = {
+  name: 'string',
+  stats: 'object',
+  section: 'object',
+  commentator: 'object',
+  topicStarter: 'object',
+  id: 'number',
+  views: 'number',
+  thanks: 'number',
+  replies: 'number',
+  createdAt: 'number'
+};
+
+const api = new Client(config);
+
+const checkTypes = object => {
+
+  for (const [key, value] of Object.entries(object)) {
+
+    if (typeof value === 'object') checkTypes(value);
+
+    const type = TYPES[key];
+
+    assert.strictEqual(typeof value, type);
+
+  }
+
+};
+
 (async () => {
 
   try {
 
-    const api = new Client(config);
-
     await api.auth();
+
+  } catch (e) {
+
+    console.log(e.stack);
+    process.exit(1);
+
+  }
+
+  try {
 
     const topics = await api.getTopics();
 
@@ -20,13 +56,9 @@ assert(Client);
 
     const [topic] = topics;
 
-    assert.strictEqual(typeof topic.topicID, 'number');
-    assert.strictEqual(typeof topic.userID, 'number');
-    assert.strictEqual(typeof topic.createdAt, 'number');
-    assert.strictEqual(typeof topic.sectionID, 'number');
-    assert.strictEqual(typeof topic.userName, 'string');
-    assert.strictEqual(typeof topic.sectionName, 'string');
-    assert.strictEqual(typeof topic.topicName, 'string');
+    assert(topic);
+
+    checkTypes(topic);
 
   } catch (e) {
 
