@@ -6,35 +6,44 @@ const Client = require('../lib/client');
 const api = new Client(config);
 
 const TYPES = {
-  id: 'number',
-  thanks: 'number',
-  createdAt: 'number',
-  postsNumber: 'number',
-  thanksNumber: 'number',
-  post: 'string',
-  name: 'string',
-  title: 'string',
-  group: 'string',
-  authKey: 'string',
-  joinDate: 'string',
-  description: 'string',
-  author: 'object',
-  posts: 'object',
-  whoSaidThanks: 'object'
+  id: 'Number',
+  createdAt: 'Number',
+  thanks: 'Number',
+  post: 'String',
+  name: 'String',
+  title: 'String',
+  group: 'String',
+  authKey: 'String',
+  joinDate: 'String',
+  description: 'String',
+  author: 'Object',
+  whoSaidThanks: 'Array',
+  posts: ['Number', 'Array']
 };
-const checkTypes = array => {
 
-  // const iter = Object.entries(array);
+const checkTypes = object => {
 
-  for (const [key, value] of Object.entries(array)) {
+  if (Array.isArray(object)) {
 
-    if (Array.isArray(value)) for (const val of value) checkTypes(val);
-    if (typeof value === 'object' && !Array.isArray(value)) checkTypes(value);
+    for (const k of object) checkTypes(k);
+
+    return;
+
+  }
+
+  for (const [key, value] of Object.entries(object)) {
+
+    if (['Object', 'Array'].includes(value.constructor.name)) checkTypes(value);
 
     const type = TYPES[key];
 
-    console.log(key, type, value);
-    assert.strictEqual(typeof value, type);
+    if (key === 'posts') {
+      assert.strictEqual(type.includes(value.constructor.name), true);
+
+      return;
+    }
+
+    assert.strictEqual(value.constructor.name, type);
 
   }
 
