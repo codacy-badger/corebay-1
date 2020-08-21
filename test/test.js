@@ -1,3 +1,3 @@
-const units = ['auth', 'gettopics', 'topicparser'];
+const units = ['auth', 'gettopics', 'topicparser', 'showtopic'];
 
 for (const name of units) require(`./unit.${name}.js`);
