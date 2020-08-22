@@ -71,7 +71,7 @@ assert(Client);
     await Promise.all(promises);
     const ok = await successfulAuthorization.auth();
 
-    assert.strictEqual(ok, undefined);
+    assert.strictEqual(ok, true);
 
   } catch (e) {
 
