@@ -13,7 +13,6 @@ const TYPES = {
   name: 'String',
   title: 'String',
   group: 'String',
-  authKey: 'String',
   joinDate: 'String',
   description: 'String',
   author: 'Object',
@@ -70,7 +69,7 @@ const checkTypes = object => {
   try {
 
     await assert.rejects(
-      async () => (await api.showTopic()),
+      async () => (await api.getTopic()),
       error => {
         assert.strictEqual(error.name, 'NotExistsTopicError');
         assert.strictEqual(error.message, notExistsTopicMessage);
@@ -87,9 +86,9 @@ const checkTypes = object => {
 
   const TOPIC_ID = 384768;
 
-  const data = await api.showTopic(TOPIC_ID);
+  const data = await api.getTopic(TOPIC_ID);
 
-  assert(data);
-  checkTypes(data);
+  assert(data.topicData);
+  checkTypes(data.topicData);
 
 })();
