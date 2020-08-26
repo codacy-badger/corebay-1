@@ -1,9 +1,6 @@
 const assert = require('assert').strict;
 
-const config = require('../test/files/config.js');
-const Client = require('../lib/client');
-
-const api = new Client(config);
+const api = require('../test/unit.auth');
 
 const TYPES = {
   id: 'Number',
@@ -19,6 +16,11 @@ const TYPES = {
   whoSaidThanks: 'Array',
   posts: ['Number', 'Array']
 };
+
+const errorMessage = (
+  'Sorry, the link that brought you ' +
+  'to this page seems to be out of date or broken.'
+);
 
 const checkTypes = object => {
 
@@ -52,43 +54,29 @@ const checkTypes = object => {
 
   try {
 
-    await api.auth();
-
-  } catch (e) {
-
-    console.log(e.stack);
-    process.exit(1);
-
-  }
-
-  const notExistsTopicMessage = (
-    'Sorry, the link that brought you ' +
-    'to this page seems to be out of date or broken.'
-  );
-
-  try {
+    const client = await api;
 
     await assert.rejects(
-      async () => (await api.getTopic()),
+      async () => (await client.getTopic()),
       error => {
         assert.strictEqual(error.name, 'NotExistsTopicError');
-        assert.strictEqual(error.message, notExistsTopicMessage);
+        assert.strictEqual(error.message, errorMessage);
         return true;
       }
     );
 
+    const TOPIC_ID = 384768;
+
+    const data = await client.getTopic(TOPIC_ID);
+
+    assert(data.topicData);
+    checkTypes(data.topicData);
+
   } catch (e) {
 
     console.log(e.stack);
     process.exit(1);
 
   }
-
-  const TOPIC_ID = 384768;
-
-  const data = await api.getTopic(TOPIC_ID);
-
-  assert(data.topicData);
-  checkTypes(data.topicData);
 
 })();

@@ -1,10 +1,6 @@
 const assert = require('assert').strict;
 
-const config = require('../test/files/config');
-const Client = require('../lib/client');
-
-assert(config);
-assert(Client);
+const api = require('../test/unit.auth');
 
 const TYPES = {
   name: 'string',
@@ -18,8 +14,6 @@ const TYPES = {
   replies: 'number',
   createdAt: 'number'
 };
-
-const api = new Client(config);
 
 const checkTypes = object => {
 
@@ -39,18 +33,9 @@ const checkTypes = object => {
 
   try {
 
-    await api.auth();
+    const client = await api;
 
-  } catch (e) {
-
-    console.log(e.stack);
-    process.exit(1);
-
-  }
-
-  try {
-
-    const topics = await api.getTopics();
+    const topics = await client.getTopics();
 
     assert.strictEqual(Array.isArray(topics) && topics.length > 0, true);
 
