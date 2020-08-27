@@ -12,8 +12,8 @@ const { PIN_CODE, UNPIN_CODE } = require('../lib/constants');
     const isPinned = await client.pinTopic(257766);
     const isUnpinned = await client.pinTopic(257766);
 
-    assert.strictEqual(isPinned, UNPIN_CODE);
-    assert.strictEqual(isUnpinned, PIN_CODE);
+    assert.strictEqual(isPinned, PIN_CODE);
+    assert.strictEqual(isUnpinned, UNPIN_CODE);
 
   } catch (e) {
 
