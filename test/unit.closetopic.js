@@ -1,25 +1,28 @@
 const assert = require('assert').strict;
 
-const api = require('../test/unit.auth');
+const api = require('../test/api');
 const { OPEN_CODE, CLOSE_CODE } = require('../lib/constants');
 
-(async () => {
+const errorHandler = e => {
+  console.log(e.stack);
+  process.exit(1);
 
-  try {
+};
 
-    const client = await api;
+const TOPIC_ID = 257766;
 
-    const isClosed = await client.closeTopic(257766);
-    const isOpen = await client.closeTopic(257766);
+api.then(client => {
 
-    assert.strictEqual(isClosed, OPEN_CODE);
-    assert.strictEqual(isOpen, CLOSE_CODE);
+  client.closeTopic(TOPIC_ID).then(isOpened => {
 
-  } catch (e) {
+    assert.strictEqual(isOpened, CLOSE_CODE);
 
-    console.log(e.stack);
-    process.exit(1);
+    client.closeTopic(TOPIC_ID).then(isClosed => {
 
-  }
+      assert.strictEqual(isClosed, OPEN_CODE);
 
-})();
+    }).catch(errorHandler);
+
+  }).catch(errorHandler);
+
+}).catch(errorHandler);

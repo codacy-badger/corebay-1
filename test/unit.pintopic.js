@@ -1,25 +1,28 @@
 const assert = require('assert').strict;
 
-const api = require('../test/unit.auth');
+const api = require('../test/api');
 const { PIN_CODE, UNPIN_CODE } = require('../lib/constants');
 
-(async () => {
+const errorHandler = e => {
+  console.log(e.stack);
+  process.exit(1);
 
-  try {
+};
 
-    const client = await api;
+const TOPIC_ID = 257766;
 
-    const isPinned = await client.pinTopic(257766);
-    const isUnpinned = await client.pinTopic(257766);
+api.then(client => {
+
+  client.pinTopic(TOPIC_ID).then(isPinned => {
 
     assert.strictEqual(isPinned, PIN_CODE);
-    assert.strictEqual(isUnpinned, UNPIN_CODE);
 
-  } catch (e) {
+    client.pinTopic(TOPIC_ID).then(isUnpinned => {
 
-    console.log(e.stack);
-    process.exit(1);
+      assert.strictEqual(isUnpinned, UNPIN_CODE);
 
-  }
+    }).catch(errorHandler);
 
-})();
+  }).catch(errorHandler);
+
+}).catch(errorHandler);

@@ -1,6 +1,6 @@
 const assert = require('assert').strict;
 
-const api = require('../test/unit.auth');
+const api = require('../test/api');
 
 const TYPES = {
   id: 'Number',
@@ -16,11 +16,6 @@ const TYPES = {
   whoSaidThanks: 'Array',
   posts: ['Number', 'Array']
 };
-
-const errorMessage = (
-  'Sorry, the link that brought you ' +
-  'to this page seems to be out of date or broken.'
-);
 
 const checkTypes = object => {
 
@@ -50,33 +45,34 @@ const checkTypes = object => {
 
 };
 
-(async () => {
+const TOPIC_ID = 384768;
 
-  try {
+const errorMessage = (
+  'Sorry, the link that brought you ' +
+  'to this page seems to be out of date or broken.'
+);
 
-    const client = await api;
+const errorHandler = e => {
+  console.log(e.stack);
+  process.exit(1);
 
-    await assert.rejects(
-      async () => (await client.getTopic()),
-      error => {
-        assert.strictEqual(error.name, 'NotExistsTopicError');
-        assert.strictEqual(error.message, errorMessage);
-        return true;
-      }
-    );
+};
 
-    const TOPIC_ID = 384768;
+api.then(client => {
 
-    const data = await client.getTopic(TOPIC_ID);
+  client.getTopic(TOPIC_ID).then(({ topicData }) => {
 
-    assert(data.topicData);
-    checkTypes(data.topicData);
+    assert(topicData);
+    checkTypes(topicData);
 
-  } catch (e) {
+  }).catch(errorHandler);
 
-    console.log(e.stack);
-    process.exit(1);
+  assert.rejects(
+    client.getTopic(),
+    {
+      name: 'NotExistsTopicError',
+      message: errorMessage
+    }
+  ).catch(errorHandler);
 
-  }
-
-})();
+}).catch(errorHandler);
