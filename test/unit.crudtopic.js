@@ -87,6 +87,7 @@ const api = require('../test/unit.auth');
       MIS_TITLE_PROMISE,
       MIS_POST_PROMISE,
       client.moveTopic(topicId, 175),
+      client.editTopic(topicId, 'test', 'test'),
       client.deleteTopic(topicId)
     ];
 
@@ -95,7 +96,8 @@ const api = require('../test/unit.auth');
     assert.deepStrictEqual(results, [
       undefined, undefined,
       undefined, undefined,
-      undefined, true, true
+      undefined, true, true,
+      true
     ]);
 
   } catch (e) {
