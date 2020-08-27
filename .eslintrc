@@ -15,7 +15,12 @@
     "semi": ["error", "always"],
     "no-loop-func": ["error"],
     "block-spacing": ["error", "always"],
-    "camelcase": ["error"],
+    "camelcase": [
+      "error",
+      {
+        allow: ["auth_key", "post_key", "poll_question"]
+      }
+    ],
     "eqeqeq": ["error", "always"],
     "strict": ["error", "global"],
     "brace-style": [
