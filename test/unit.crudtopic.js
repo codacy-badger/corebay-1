@@ -8,6 +8,21 @@ const api = require('../test/unit.auth');
 
     const client = await api;
 
+    const topicId = await client.createTopic({
+      title: '323', post: '234', section: 95
+    });
+
+    const FAILED_MOVE_MSG = 'You did not choose a destination forum';
+
+    const FAILED_MOVE_PROMISE = await assert.rejects(
+      async () => (await client.moveTopic(257766, 54353, false)),
+      error => {
+        assert.strictEqual(error.name, 'Error');
+        assert.strictEqual(error.message, FAILED_MOVE_MSG);
+        return true;
+      }
+    );
+
     const MIS_OR_INCORRECT_SECTION = (
       { title: '43', post: 'f', section: 435345 }
     );
@@ -67,18 +82,21 @@ const api = require('../test/unit.auth');
 
     const promises = [
       MIS_OR_INCORRECT_SECTION_PROMISE,
+      FAILED_MOVE_PROMISE,
       MIS_TOPICID_PROMISE,
       MIS_TITLE_PROMISE,
       MIS_POST_PROMISE,
+      client.moveTopic(topicId, 175),
+      client.deleteTopic(topicId)
     ];
 
-    await Promise.all(promises);
+    const results = await Promise.all(promises);
 
-    const topicId = await client.createTopic({
-      title: '323', post: '234', section: 95
-    });
-
-    assert.strictEqual(await client.deleteTopic(topicId), true);
+    assert.deepStrictEqual(results, [
+      undefined, undefined,
+      undefined, undefined,
+      undefined, true, true
+    ]);
 
   } catch (e) {
 

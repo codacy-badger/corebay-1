@@ -18,7 +18,7 @@
     "camelcase": [
       "error",
       {
-        allow: ["auth_key", "post_key", "poll_question"]
+        allow: ["auth_key", "post_key", "poll_question", "move_id"]
       }
     ],
     "eqeqeq": ["error", "always"],
