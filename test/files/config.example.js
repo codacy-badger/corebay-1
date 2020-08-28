@@ -1,4 +1,10 @@
 module.exports = {
-  'username': '',
-  'password': ''
+  moder: {
+    'username': '',
+    'password': ''
+  },
+  user: {
+    'username': '',
+    'password': ''
+  }
 };

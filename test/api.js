@@ -6,4 +6,4 @@ const Client = require('../lib/client');
 assert(config);
 assert(Client);
 
-module.exports = new Client(config);
+module.exports = new Client(config.moder);

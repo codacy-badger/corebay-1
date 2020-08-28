@@ -18,7 +18,7 @@ assert(Client);
   );
 
   const emptyPasswordPromise = assert.rejects(
-    async () => (await new Client(config.username)),
+    async () => (await new Client(config.moder.username)),
     error => {
       assert.strictEqual(error.name, 'AuthorizationError');
       assert.strictEqual(error.message, 'Your password field was not complete');
@@ -42,7 +42,7 @@ assert(Client);
 
 
   const incorrectPasswordPromise = assert.rejects(
-    async () => (await new Client(config.username, '1234567')),
+    async () => (await new Client(config.moder.username, '1234567')),
     error => {
       assert.strictEqual(error.name, 'AuthorizationError');
       assert.strictEqual(error.message, 'Username or password incorrect');
