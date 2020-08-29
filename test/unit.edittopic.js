@@ -3,7 +3,7 @@ const assert = require('assert').strict;
 const api = require('../test/api');
 
 const TOPIC = {
-  title: '323', post: '234', section: 95
+  title: '323', post: '234', section: 200
 };
 
 const EDIT_TITLE = 'testttile';
