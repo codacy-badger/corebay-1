@@ -1,7 +1,7 @@
 const units = [
-  'authfails', 'gettopic', 'gettopics', 'pintopic',
+  'authfails', 'gettopic', 'pintopic',
   'closetopic', 'mergetopic', 'createtopic', 'movetopic',
-  'edittopic', 'deletetopic', 'saythanks', 'getuser'
+  'edittopic', 'deletetopic', 'saythanks', 'getuser', 'news'
 ];
 
 for (const name of units) require(`./unit.${name}.js`);

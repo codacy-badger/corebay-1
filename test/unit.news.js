@@ -35,16 +35,26 @@ const errorHandler = e => {
 
 };
 
-api.then(client => client.getTopics())
-  .then(topics => {
+api.then(client => {
 
-    assert.strictEqual(Array.isArray(topics), true);
-    assert.strictEqual(topics.length > 0, true);
+  Promise.all([
+    client.news('post'),
+    client.news('topic'),
+  ]).then(results => {
 
-    const [topic] = topics;
+    for (const result of results) {
 
-    assert(topic);
+      assert.strictEqual(Array.isArray(result), true);
 
-    checkTypes(topic);
+      for (const object of result) {
+
+        assert(object);
+        checkTypes(object);
+
+      }
+
+    }
 
   }).catch(errorHandler);
+
+}).catch(errorHandler);
